@@ -163,7 +163,7 @@ proc gproxyrc::dump {} {
             if {$section eq "netrc" && $key ne "error_message"} {
                 puts "  $key:"
                 dict for {machine_key machine_value} $value {
-                    if {$machine_key in {login password}} {
+                    if {$machine_key in {login password account}} {
                         set machine_value "<redacted>"
                     }
                     puts "    $machine_key = $machine_value"
