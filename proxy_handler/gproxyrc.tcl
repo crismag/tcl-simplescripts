@@ -37,11 +37,15 @@ proc gproxyrc::parse_netrc {file_path} {
         return [dict create error_message "File not found: $file_path"]
     }
 
+    if {[catch {set lines [read_lines $file_path]} err]} {
+        return [dict create error_message "Unable to read $file_path: $err"]
+    }
+
     set result [dict create]
     set machine ""
     set content ""
 
-    foreach line [read_lines $file_path] {
+    foreach line $lines {
         # netrc comments begin with # and continue to the end of the line.
         regsub {#.*$} $line "" line
         append content " " $line
