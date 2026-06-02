@@ -169,7 +169,8 @@ proc gproxyrc::dump {} {
                     puts "    $machine_key = $machine_value"
                 }
             } else {
-                if {$key in {proxy-user proxy_user proxy_password password login}} {
+                if {$key in {proxy-user proxy_user proxy_password password login} || \
+                    [regexp {^[a-zA-Z][a-zA-Z0-9+.-]*://[^/@]*:[^/@]*@} $value]} {
                     set value "<redacted>"
                 }
                 puts "  $key = $value"
