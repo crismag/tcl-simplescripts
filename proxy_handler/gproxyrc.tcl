@@ -73,8 +73,12 @@ proc gproxyrc::parse_key_value_file {file_path} {
         return [dict create error_message "File not found: $file_path"]
     }
 
+    if {[catch {set lines [read_lines $file_path]} err]} {
+        return [dict create error_message "Unable to read $file_path: $err"]
+    }
+
     set result [dict create]
-    foreach line [read_lines $file_path] {
+    foreach line $lines {
         set line [string trim $line]
         if {$line eq "" || [string match "#*" $line]} {
             continue
@@ -84,6 +88,8 @@ proc gproxyrc::parse_key_value_file {file_path} {
             dict set result [string trim $key] [clean_value $value]
         }
     }
+
+    return $result
 
     return $result
 }
